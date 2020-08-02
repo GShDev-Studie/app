@@ -1,26 +1,17 @@
-// #!/javascript
-var request = require("request");
+const express = require('express');
+const fs = require('fs');
+const app = express();
 
+app.get('/', function (req, res) {
+res.set('Content-Type', 'text/html');	
+  res.send('<b>API Send Email Free</b>');
+});
+app.get('/docs', function (req, res) {
+  fs.readFile('docs/index.html', function (err, html) {
+    
+  res.set('Content-Type', 'text/html');
+  res.send(html);
+  });
+});
 
-  var options = { 
-	  method: 'GET',
-	  url: 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyCCWZFpSPzdbcEEI33KjaqqjwhK3EKTMC0&channelId=UCEIcoGCBHnW9E6AfRoSKBdQ&part=snippet,id&order=date&maxResults=20'
-		        };
-
-const onGET = (req, res) => {
-    
-    request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    var obj = JSON.parse(body);
-    
-    
-    for(var c = 0 ; c < obj.items.length ; c++){
-    var dataJSON =  ' "title":"'+obj.items[c].snippet.title+'",';
-    }
-    res.end({
-    text : dataJSON,
-    headers : {"content-type":"application/json"}
-    });
-    });
-    
-}
+app.listen(3000);
